@@ -4,10 +4,11 @@ import { pool } from '../config/db.js';
 import { signToken } from '../utils/jwt.js';
 import { authRequired } from '../middleware/auth.js';
 import { writeAuditLog } from '../services/auditService.js';
+import { requireFields } from '../middleware/validate.js';
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
+router.post('/login', requireFields(['username','password']), async (req, res) => {
   const { username, password } = req.body;
   const [users] = await pool.execute('SELECT id, username, password_hash, role FROM users WHERE username=?', [username]);
   const user = users[0];

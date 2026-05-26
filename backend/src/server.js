@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import auditRoutes from './routes/auditRoutes.js';
+import roleRoutes from './routes/roleRoutes.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/menus', menuRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/audit-logs', auditRoutes);
+app.use('/api/roles', roleRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

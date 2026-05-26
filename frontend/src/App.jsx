@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import UsersPage from './pages/UsersPage';
 import AuditPage from './pages/AuditPage';
+import RolesPage from './pages/RolesPage';
 
 export default function App() {
   const { user, login, logout } = useAuth();
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/" element={<DashboardPage user={user} />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/audit" element={<AuditPage />} />
+          <Route path="/roles" element={<RolesPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
