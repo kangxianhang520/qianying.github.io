@@ -2,6 +2,7 @@ import express from 'express';
 import { pool } from '../config/db.js';
 import { authRequired, permit } from '../middleware/auth.js';
 import { audit } from '../middleware/audit.js';
+import { PERMISSION_CODES } from '../config/permissions.js';
 
 const router = express.Router();
 
@@ -22,6 +23,8 @@ router.put('/:role/permissions', authRequired, permit('role:view'), audit('ROLE_
   const { role } = req.params;
   const { permissionCodes } = req.body;
   if (!Array.isArray(permissionCodes)) return res.status(400).json({ message: 'permissionCodes 必须是数组' });
+  const invalid = permissionCodes.filter((c) => !PERMISSION_CODES.includes(c));
+  if (invalid.length) return res.status(400).json({ message: `存在非法权限: ${invalid.join(',')}` });
 
   const conn = await pool.getConnection();
   try {

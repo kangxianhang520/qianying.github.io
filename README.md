@@ -32,3 +32,9 @@ npm run dev
 ```
 
 默认管理员：`admin / 123456`
+
+
+## 新增增强
+- 用户列表支持分页与关键字搜索（`page/pageSize/keyword`）。
+- 审计日志支持分页与筛选（`action/userId/from/to`）。
+- 角色权限更新支持权限码白名单校验。
