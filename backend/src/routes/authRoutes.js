@@ -7,7 +7,11 @@ import { writeAuditLog } from '../services/auditService.js';
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
+const asyncHandler = (handler) => (req, res, next) => {
+  Promise.resolve(handler(req, res, next)).catch(next);
+};
+
+router.post('/login', asyncHandler(async (req, res) => {
   const { username, password } = req.body;
   const [users] = await pool.execute('SELECT id, username, password_hash, role FROM users WHERE username=?', [username]);
   const user = users[0];
@@ -29,7 +33,7 @@ router.post('/login', async (req, res) => {
   await writeAuditLog({ userId: user.id, action: 'LOGIN', resource: 'auth', detail: '用户登录成功' });
 
   return res.json({ token, user: { id: user.id, username: user.username, role: user.role, permissions } });
-});
+}));
 
 router.get('/me', authRequired, (req, res) => {
   res.json({ user: req.user });
